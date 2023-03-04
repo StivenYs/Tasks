@@ -1,26 +1,27 @@
 ﻿import React from "react";
 import {useLocalStorage} from "./useLocalStorage";
 
-const TodoContext = React.createContext();
+const TaskContext = React.createContext();
  
- function TodoProvide(props){
+ function TaskProvide(props){
+     
      const {
-         item: todos,
-         saveItem:saveTodos,
+         item: tasks,
+         saveTasks:saveTasks,
          loading,
          error
      } = useLocalStorage('TODOS_V1',[]);
      const [search, setSearchValue] = React.useState('');
+     const [openModal,setOpenModal] = React.useState(false );
+     const completedTasks = tasks.filter(item => item.completed).length;
+     const totalTasks = tasks.length;
 
-     const completedTodos = todos.filter(item => item.completed).length;
-     const totalTodos = todos.length;
-
-     let searchedTodos = [];
+     let searchedTasks = [];
 
      if (!search.length >= 1){
-         searchedTodos = todos;
+         searchedTasks = tasks;
      }else{
-         searchedTodos = todos.filter(item => {
+         searchedTasks = tasks.filter(item => {
              const CorLetterMi = item.text.toLowerCase();
              const LetterMinState = search.toLowerCase();
              return CorLetterMi.includes(LetterMinState);
@@ -29,18 +30,27 @@ const TodoContext = React.createContext();
 
 
      //Complete
-     const CompleteTodo = (text)=>{
-         const todoIndex = todos.findIndex(item => item.text === text);
-         const newArrayTodos = [...todos];
-         newArrayTodos[todoIndex].completed = true;
-         saveTodos(newArrayTodos);
+     const CompleteTask = (text)=>{
+         const taskIndex = tasks.findIndex(item => item.text === text);
+         const newArrayTasks = [...tasks];
+         newArrayTasks[taskIndex].completed = true;
+         saveTasks(newArrayTasks);
      }
      //Delete 
-     const DeleteTodo = (text)=>{
-         const todoIndex = todos.findIndex(item => item.text === text);
-         const newArrayTodos = [...todos];
-         newArrayTodos.splice(todoIndex,1);
-         saveTodos(newArrayTodos);
+     const DeleteTask = (text)=>{
+         const taskIndex = tasks.findIndex(item => item.text === text);
+         const newArrayTasks = [...tasks];
+         newArrayTasks.splice(taskIndex,1);
+         saveTasks(newArrayTasks);
+     }
+     //Add
+     const AddTask = (text)=>{
+         const newArrayTasks = [...tasks];
+         newArrayTasks.push({
+             completed: false,
+             text,
+         })
+         saveTasks(newArrayTasks);
      }
 
      /*
@@ -58,20 +68,24 @@ const TodoContext = React.createContext();
       */
      
      return(
-         <TodoContext.Provider value={{
+         <TaskContext.Provider value={{
              loading,
              error,
-             totalTodos,
-             completedTodos,
+             totalTasks,
+             completedTasks,
              search,
              setSearchValue,
-             searchedTodos,
-             CompleteTodo,
-             DeleteTodo,
+             searchedTasks,
+             CompleteTask,
+             DeleteTask,
+             AddTask,
+             openModal,
+             setOpenModal,
+             
          }}>
              {props.children}
-         </TodoContext.Provider>
+         </TaskContext.Provider>
      );
  }
  
-export {TodoContext,TodoProvide};
+export {TaskContext,TaskProvide};

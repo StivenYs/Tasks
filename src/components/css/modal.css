@@ -1,0 +1,48 @@
+﻿.modalBackGround{
+    background-color: rgba(32,35,41,.8);
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+    background-color: #161E20;
+    border: 1px solid #0E1214;
+    border-radius: 5px;
+    
+    width: 250px;
+    height: 200px;
+}
+.form textarea{
+   resize: none;
+    outline-color: #61dafb;
+    text-align: center;
+    
+}
+.form div{
+    display: flex;
+    width: 197px;
+    justify-content: space-between;
+   
+}
+.form div button{
+    width: 80px;
+    height: 35px;
+    border: none;
+}
+.form div button:nth-child(2){
+    background-color: #90D7F8;
+    border: 1px solid cyan;
+    
+}

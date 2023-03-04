@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import '../css/TodoItem.css'
-function TodoItem(props){
+function TaskItem(props){
     return(
         <li className="TodoItem">
            <span 
@@ -22,5 +22,5 @@ function TodoItem(props){
     );
 }
 
-export {TodoItem};
+export {TaskItem};
 

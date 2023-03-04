@@ -1,36 +1,49 @@
 ﻿import React from "react";
-import {TodoCounter} from "./TodoCounter";
-import {TodoItem} from "./TodoItem";
-import {CreateTodoButton} from "./CreateTodoButton";
-import {TodoList} from "./TodoList";
-import {TodoSearch} from "./TodoSearch";
-
+import {TaskCounter} from "./TaskCounter";
+import {TaskContext} from "../../Context/Context";
+import {TaskItem} from "./TaskItem";
+import {CreateTaskButton} from "./CreateTaskButton";
+import {TaskList} from "./TaskList";
+import {TaskSearch} from "./TaskSearch";
+import {Modal} from "./modal";
+import {TaskForm} from "./form";
+import {ReactContent} from "../react-Content";
 
 function AppUI(){
+    const {error,
+        loading,
+        searchedTasks,
+        CompleteTask,
+        DeleteTask,
+        openModal,
+        setOpenModal
+    } = React.useContext(TaskContext);
     return(
         <React.Fragment>
-            <TodoCounter/>
-            <TodoSearch
-                search = {search}
-                setSearchValue ={setSearchValue}
-            />
-            <TodoList>
+            <TaskCounter/>
+            <TaskSearch/>
+            <TaskList>
                 {error && <p>Desesperate, Hubo un error</p>}
-                {loading  && <p>Estamos cargando ...</p>}
-                {(!loading  && !searchedTodos.length) && <p>!Crea tu primer taks  😂...</p>}
-                {searchedTodos.map(item => (
-                    <TodoItem
-                        key={item.id}
+                {loading  && <ReactContent/>}
+                {(!loading  && !searchedTasks.length) && <p>!Crea tu primer taks  😂...</p>}
+                {searchedTasks.map(item => (
+                    <TaskItem
+                        key={item.text}
                         text={item.text}
                         completed={item.completed}
-                        onComplete={()=> CompleteTodo(item.text)}
-                        onDelete ={()=> DeleteTodo(item.text)}
+                        onComplete={()=> CompleteTask(item.text)}
+                        onDelete ={()=> DeleteTask(item.text)}
                     />
                 ))}
-            </TodoList>
-
-            <CreateTodoButton/>
-            <button>+</button>
+            </TaskList>
+            {!!openModal &&(
+                <Modal>
+                    <TaskForm/>
+                </Modal>
+            )}
+            <CreateTaskButton
+                setOpenModal={setOpenModal}
+            />
         </React.Fragment>
     );
 }

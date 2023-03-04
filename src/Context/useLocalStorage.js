@@ -29,16 +29,16 @@ function useLocalStorage(itemName,initialValue){
                 setError(error);
             }
 
-        },1000);
+        },2500);
     });
     //local storage
 
     //save this state in the local storage
-    const saveTodos = (newTodos) => {
+    const saveTasks = (newTasks) => {
         try {
-            const stingfielldTodo = JSON.stringify(newTodos);
-            localStorage.setItem(itemName,stingfielldTodo)
-            setItem(newTodos);
+            const stingfielldTask = JSON.stringify(newTasks);
+            localStorage.setItem(itemName,stingfielldTask)
+            setItem(newTasks);
 
         }catch (error){
             setError(error);
@@ -48,7 +48,7 @@ function useLocalStorage(itemName,initialValue){
 
     return {
         item,
-        saveTodos,
+        saveTasks,
         loading,
         error
     };
